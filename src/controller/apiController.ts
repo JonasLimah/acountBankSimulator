@@ -74,7 +74,7 @@ export const endPoint = {
             let limite =  changeValue(searchAccount.saldo.toString());
             let saque = changeValue(data.valor)
             if(limite >= saque){
-            searchAccount.saldo = (limite-(-1*(-saque)));
+            searchAccount.saldo = (limite-(-1*(-saque)));//bug no saque
             searchAccount.save();
             res.json({message:"Seu saque foi realizado com sucesso"})
             return;
