@@ -3,7 +3,7 @@ import { Cliente} from "../instances/pgModel";
 import jwt from "jsonwebtoken";
 import {validationResult,matchedData} from "express-validator"
 import {Boost} from '../BoostApp/Functions/BoostFunctions'
-import { type } from "os";
+
 export const endPoint = {
     register : async (req:Request,res:Response) => {
         let error = validationResult(req);
@@ -32,7 +32,6 @@ export const endPoint = {
         res.json({error: "try another account"})
     },
     depoosito : async (req:Request,res:Response)=>{
-       
         let data =  matchedData(req);
         let error =  validationResult(req);
         if(!error.isEmpty()){
@@ -40,16 +39,12 @@ export const endPoint = {
             return;
         };
         let user =  await Cliente.findOne({where:{ag:data.ag,conta:data.conta}});
-      
         if(user){
-         
-          
             let verify = Boost.VerifySing(data.valor);
             if(verify === -1||verify === -0||verify === 0){
                 res.json({message:"valor invalido"});
                 return;
             }
-
             let setSaldoNumber = Boost.changeValue(user.saldo.toString());
             let setDataValue = Boost.changeValue(data.valor);
             console.log(typeof setDataValue,typeof setSaldoNumber)
@@ -62,7 +57,6 @@ export const endPoint = {
             res.json({error: "valor invalido"})
         };
         res.json({error: "ag/conta invalida"})
-
     },
     extrato : async (req:Request,res:Response)=>{
         let {ag,conta} = req.params
