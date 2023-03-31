@@ -31,6 +31,23 @@ export const endPoint = {
         }
         res.json({error: "try another account"})
     },
+    login : async (req:Request,res:Response)=>{
+        let data = matchedData(req);
+        let error = validationResult(req);
+        if(!error.isEmpty()){
+            res.json({error : error.mapped()});
+            return;
+        }
+        let findUser = await Cliente.findOne({where:{username:data.username,password:data.password}})
+        if(findUser){
+            let token = jwt.sign({username:data.username},process.env.JWT_TOKEN as string)
+            findUser.token = token;
+            res.json({loged:true,findUser});
+            findUser.save()
+            return;
+        };
+        res.json({error:"usuario ou senha invalido"})
+    },
     depoosito : async (req:Request,res:Response)=>{
         let data =  matchedData(req);
         let error =  validationResult(req);

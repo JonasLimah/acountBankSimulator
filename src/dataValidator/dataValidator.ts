@@ -59,5 +59,20 @@ export const Validator = {
                 options:{min:6,max:6}
             }
         }
-    })
+    }),
+    login: checkSchema({
+        username : {
+            trim: true,
+            isLength:{
+                errorMessage:"usuario ou senha invalido",
+                options:{min:2}
+            }
+        },
+        password : {
+            trim: true,
+            isLength:{
+                errorMessage:"usuario ou senha invalido",
+                options:{min:6,max:6}
+            }
+    }})
 }
